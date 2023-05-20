@@ -19,9 +19,7 @@ class Scrape extends AsyncTask<String, Void, MovieData> {
     @SuppressLint("StaticFieldLeak")
     private final MainActivity mainActivity;
 
-    public Scrape(MainActivity activity) {
-        mainActivity = activity;
-    }
+    public Scrape(MainActivity activity) { mainActivity = activity; }
 
     protected MovieData doInBackground(String... urls) {
         try {
@@ -35,10 +33,9 @@ class Scrape extends AsyncTask<String, Void, MovieData> {
             Elements Poster = doc.select("div.image_content > img.poster");
             Elements Tagline = doc.select("div.header_info > *.tagline");
             Elements Overview = doc.select("div.header_info > div.overview > p");
-//                Elements Cast = doc.select("div#cast_scroller > ol.people > *.card > p > a");
+            Elements Cast = doc.select("div#cast_scroller > ol.people > *.card > p > a");
             Elements Runtime = doc.select("div.title > div.facts > span.runtime");
             Elements Genre = doc.select("div.title > div.facts > span.genres > a");
-//            Elements Director = doc.select("ol.people > li.profile > p.character");
 
 
             String movieTitleString = null;
@@ -87,7 +84,14 @@ class Scrape extends AsyncTask<String, Void, MovieData> {
             String genreListString = genreList.toString();
             String genreString = genreListString.substring(1,genreListString.length()-1);
 
-            System.out.println(genreString);
+
+            List<String> castList = new ArrayList<>();
+            for (Element data : Cast) {
+                castList.add(data.text());
+            }
+            String castListString = castList.toString();
+            String castString = castListString.substring(1,castListString.length()-1);
+
 
             MovieData movieData = new MovieData();
             movieData.setTitle(movieTitleString + " " + releaseYearString);
@@ -98,6 +102,7 @@ class Scrape extends AsyncTask<String, Void, MovieData> {
             movieData.setOverview(overviewString);
             movieData.setPosterPath(posterPathString);
             movieData.setGenre(genreString);
+            movieData.setCast(castString);
 
             return movieData;
 
@@ -116,9 +121,9 @@ class Scrape extends AsyncTask<String, Void, MovieData> {
             mainActivity.movieRuntimeView.setText(movieData.getRuntime());
             mainActivity.movieOverviewView.setText(movieData.getOverview());
             mainActivity.movieGenreView.setText(movieData.getGenre());
+            mainActivity.movieCastView.setText(movieData.getCast());
 
             mainActivity.moviePosterLink = "http://image.tmdb.org/t/p/w500/" + extractPosterPath(movieData.getPosterPath());
-//            System.out.println(movieData.getPosterPath());
             Glide.with(mainActivity).load(mainActivity.moviePosterLink).placeholder(R.drawable.ic_launcher_background).into(mainActivity.moviePosterBackgroundView);
 
         }

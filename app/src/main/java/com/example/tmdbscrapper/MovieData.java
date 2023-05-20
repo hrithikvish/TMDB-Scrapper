@@ -12,6 +12,7 @@ public class MovieData {
     private String overview;
     private String posterPath;
     private String genre;
+    private String cast;
 
     public String getTitle() {
         return title;
@@ -76,4 +77,7 @@ public class MovieData {
     public void setGenre(String genre) {
         this.genre = genre;
     }
+
+    public String getCast() { return cast;}
+    public void setCast(String cast) { this.cast = cast;}
 }
