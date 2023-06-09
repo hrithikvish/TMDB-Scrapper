@@ -124,7 +124,7 @@ class Scrape extends AsyncTask<String, Void, MovieData> {
             mainActivity.movieCastView.setText(movieData.getCast());
 
             mainActivity.moviePosterLink = "http://image.tmdb.org/t/p/w500/" + extractPosterPath(movieData.getPosterPath());
-            Glide.with(mainActivity).load(mainActivity.moviePosterLink).placeholder(R.drawable.ic_launcher_background).into(mainActivity.moviePosterBackgroundView);
+            Glide.with(mainActivity).load(mainActivity.moviePosterLink).placeholder(R.drawable.backgroudbackdrop).into(mainActivity.moviePosterBackgroundView);
 
         }
     }
